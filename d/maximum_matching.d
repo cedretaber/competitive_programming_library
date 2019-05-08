@@ -37,12 +37,12 @@ struct Graph(T)
         meta.length = L + R;
         meta[] = -1;
 
-        bool augument(T u) {
+        bool augment(T u) {
             if (visited[u]) return false;
             visited[u] = true;
             foreach (w; adj[u]) {
                 auto v = meta[w];
-                if (v <0 || augument(v)) {
+                if (v < 0 || augment(v)) {
                     meta[u] = w;
                     meta[w] = u;
                     return true;
@@ -54,7 +54,7 @@ struct Graph(T)
         auto match = 0;
         foreach (u; 0..L) {
             visited[] = 0;
-            if (augument(u)) ++match;
+            if (augment(u)) ++match;
         }
         return match;
     }
