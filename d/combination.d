@@ -2,6 +2,16 @@
 long P = 10^^9+7;
 long[10^^5+50] F, RF;
 
+long pow(long x, long n) {
+    long y = 1;
+    while (n) {
+        if (n%2 == 1) y = (y * x) % P;
+        x = x^^2 % P;
+        n /= 2;
+    }
+    return y;
+}
+
 /**
   * P を法とする階乗、逆元を予め計算しておく。
   */
@@ -32,6 +42,7 @@ void init()
   */
 long comb(N)(N n, N k)
 {
+    if (k > n) return 0;
     auto n_b = F[n];    // n!
     auto nk_b = RF[n-k]; // 1 / (n-k)!
     auto k_b = RF[k];    // 1 / k!
@@ -46,6 +57,7 @@ long comb(N)(N n, N k)
   */
 long perm(N)(N n, N k)
 {
+    if (k > n) return 0;
     auto n_b = F[n];
     auto n_k_b = RF[n-k];
     return (n_b * n_k_b) % P;

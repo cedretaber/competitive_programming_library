@@ -38,7 +38,7 @@ public:
             node = To(node.to, node.cost, node.cost);
         }
         auto store = this.TS[start];
-        auto Q = heapify!"a.min_cost > b.min_cost"(store, store.length);
+        auto Q = heapify!"a.min_cost > b.min_cost"(store, N+M);
         while (!Q.empty) {
             auto head = Q.front;
             if (head.to == goal) {
