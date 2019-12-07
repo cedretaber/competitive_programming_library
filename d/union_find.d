@@ -16,6 +16,9 @@ struct UFTree(T)
     }
 
     ///
+    T min_size, max_size;
+
+    ///
     this(T n)
     {
         nodes.length = n;
@@ -24,6 +27,11 @@ struct UFTree(T)
             node = Node(i.to!T);
             sizes[i] = 1;
         }
+
+        min_sizes.length = n + 1;
+        min_sizes[1] = n;
+        min_size = 1;
+        max_size = 1;
     }
 
     ///
@@ -34,13 +42,24 @@ struct UFTree(T)
 
         if (a == b) return false;
 
+        auto a_size = sizes[a];
+        auto b_size = sizes[b];
+        --min_sizes[a_size];
+        --min_sizes[b_size];
+        ++min_sizes[a_size + b_size];
+        foreach (nxt_size; min(a_size, b_size)..min_sizes.length) if (min_sizes[nxt_size] != 0) {
+            min_size = nxt_size.to!T;
+            break;
+        }
+        max_size = max(max_size, a_size + b_size);
+
         if (nodes[a].rank < nodes[b].rank) {
-            sizes[nodes[a].parent] += sizes[nodes[b].parent];
-            nodes[b].parent = nodes[a].parent;
+            sizes[a] += sizes[b];
+            nodes[b].parent = a;
         } else {
-            sizes[nodes[b].parent] += sizes[nodes[a].parent];
-            nodes[a].parent = nodes[b].parent;
-            if (nodes[a].rank == nodes[b].rank) nodes[a].rank += 1;
+            sizes[b] += sizes[a];
+            nodes[a].parent = b;
+            if (nodes[a].rank == nodes[b].rank) ++nodes[b].rank;
         }
 
         return true;
@@ -61,6 +80,7 @@ struct UFTree(T)
 private:
     Node[] nodes;
     T[] sizes;
+    T[] min_sizes;
 
     T root(T i)
     {
