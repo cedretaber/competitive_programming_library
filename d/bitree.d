@@ -14,7 +14,7 @@ if (is(typeof(init) : T))
         foreach (i, t; ts) this.put(i+1, t);
     }
 
-    ///
+    /// This method does not replace the element but applies old one and new one to the `fun`.
     void put(size_t i, T e) {
         while (i <= this.n) {
             this.tree[i] = fun(this.tree[i], e);
@@ -37,7 +37,9 @@ private:
     T[] tree;
 }
 
-///
+/// The `init` value is used for the `query` method as first value,
+/// so you can not use this argument to initialise the tree.
+/// In other words, this is identity element.
 BITree!(fun, init, T) bitree(alias fun, alias init, T)(size_t n, T[] ts = [])
 {
     return BITree!(fun, init, T)(n, ts);
