@@ -12,6 +12,11 @@ long pow(long x, long n) {
     return y;
 }
 
+long inv(long x)
+{
+    return pow(x, P-2);
+}
+
 /**
   * P を法とする階乗、逆元を予め計算しておく。
   */
