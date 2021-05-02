@@ -32,7 +32,8 @@ struct Graph(T)
     /// グラフの最大マッチングを求める
     T maximum_matching()
     {
-        T[] visited, meta;
+        bool[] visited;
+        T[] meta;
         visited.length = L;
         meta.length = L + R;
         meta[] = -1;
@@ -53,7 +54,7 @@ struct Graph(T)
 
         auto match = 0;
         foreach (u; 0..L) {
-            visited[] = 0;
+            visited[] = false;
             if (augment(u)) ++match;
         }
         return match;

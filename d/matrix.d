@@ -1,3 +1,5 @@
+import std.stdio, std.algorithm, std.conv, std.array, std.string, std.math, std.typecons, std.numeric;
+
 ///
 struct Matrix(N, size_t height, size_t width)
 {
@@ -43,7 +45,7 @@ struct Matrix(N, size_t height, size_t width)
         static if (op == "^^" && height == width) {
             N[width][height] rr;
             foreach (i; 0..width) rr[i][i] = 1;
-            auto r = Matrix!(height, width)(rr, M);
+            auto r = Matrix!(N, height, width)(rr, M);
             auto x = this;
             while (n) {
                 if (n%2 == 1) r = r * x;
@@ -59,5 +61,5 @@ struct Matrix(N, size_t height, size_t width)
 
 Matrix!(N, h, w) matrix(N, size_t h, size_t w)(N[w][h] arr, N M = 0)
 {
-    return Matrix!(h, w)(arr, M);
+    return Matrix!(N, h, w)(arr, M);
 }

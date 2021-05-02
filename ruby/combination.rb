@@ -30,7 +30,7 @@ class Combination
     @RF.freeze
   end
   
-  def comb n, k
+  def combinations n, k
     n_b = @F[n]
     nk_b = @RF[n-k]
     k_b = @RF[k]
@@ -40,10 +40,14 @@ class Combination
     (n_b * nk_b_k_b) % @P
   end
   
-  def perm n, k
+  def permutations n, k
     n_b = @F[n]
     n_k_b = @RF[n-k]
   
     (n_b * n_k_b) % @P
+  end
+
+  def directions h, w
+    @F[h+w] * @RF[h] % P * @RF[w] % P
   end
 end
